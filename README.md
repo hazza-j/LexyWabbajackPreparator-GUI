@@ -1,2 +1,2 @@
 # wabbajacklexypreparator-GUI
- GUI based on the Wabbajack Preparator created by trawzifieds
+ GUI for the Wabbajack Preparator created by trawzifieds
