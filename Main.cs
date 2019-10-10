@@ -22,6 +22,7 @@ namespace Preparator_GUI
         public Main()
         {
             InitializeComponent();
+            this.Text = "Lexy Wabbajack Preparator GUI";
         }
 
         private void Form1_Load(object sender, EventArgs e)
