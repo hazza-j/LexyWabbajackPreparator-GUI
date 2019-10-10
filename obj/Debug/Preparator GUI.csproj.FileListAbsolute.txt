@@ -2,8 +2,8 @@ C:\Users\Blues\source\repos\Preparator GUI\bin\Debug\Preparator GUI.exe.config
 C:\Users\Blues\source\repos\Preparator GUI\bin\Debug\Preparator GUI.exe
 C:\Users\Blues\source\repos\Preparator GUI\bin\Debug\Preparator GUI.pdb
 C:\Users\Blues\source\repos\Preparator GUI\obj\Debug\Preparator GUI.csprojAssemblyReference.cache
-C:\Users\Blues\source\repos\Preparator GUI\obj\Debug\Preparator_GUI.Form1.resources
 C:\Users\Blues\source\repos\Preparator GUI\obj\Debug\Preparator_GUI.Properties.Resources.resources
 C:\Users\Blues\source\repos\Preparator GUI\obj\Debug\Preparator GUI.csproj.GenerateResource.cache
 C:\Users\Blues\source\repos\Preparator GUI\obj\Debug\Preparator GUI.exe
 C:\Users\Blues\source\repos\Preparator GUI\obj\Debug\Preparator GUI.pdb
+C:\Users\Blues\source\repos\Preparator GUI\obj\Debug\Preparator_GUI.Main.resources

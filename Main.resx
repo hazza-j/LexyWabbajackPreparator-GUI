@@ -123,7 +123,7 @@
   <metadata name="backgroundWorker1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>186, 17</value>
   </metadata>
-  <data name="label6.Text" xml:space="preserve">
+  <data name="WarningDesc.Text" xml:space="preserve">
     <value>This software can and will delete your Skyrim Installation, 
 save games and more unless configred correctly. 
 Use it at your own risk!

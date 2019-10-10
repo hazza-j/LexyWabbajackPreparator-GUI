@@ -15,7 +15,7 @@ using System.Threading;
 using Microsoft.VisualBasic;
 
 namespace Preparator_GUI
-{    class Program2
+{    class Delete
     {
         //private static string Version = "1.1.1";
 
