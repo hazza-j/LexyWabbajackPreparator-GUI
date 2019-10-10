@@ -32,6 +32,10 @@ namespace Preparator_GUI
 
         private void button1_Click(object sender, EventArgs e)
         {
+            // Change Skip Button
+            Next.Text = "Next";
+            Next.Enabled = false;
+
             // Set System Directories
             string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string AppDataLocal = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
@@ -191,10 +195,11 @@ namespace Preparator_GUI
 
             }
             progressBar1.PerformStep();
-            listBox1.Items.Add("Preparation for modlist install complete! You may now exit the program.".ToString());
-            listBox1.Items.Add("Now you're off to...".ToString());
-            listBox1.Items.Add("The Wabbajack! Huh? Huh? Didn't see that coming, did you?".ToString());
+            listBox1.Items.Add("Preparation for modlist install complete!".ToString());
+            listBox1.Items.Add("Leave This window open and click next once Wabbajack has finished".ToString());
             listBox1.TopIndex = listBox1.Items.Count - 1;
+
+            Next.Enabled = true;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -233,6 +238,11 @@ namespace Preparator_GUI
             progressBar1.Maximum = 6;
             progressBar1.Value = 1;
             progressBar1.Step = 1;
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

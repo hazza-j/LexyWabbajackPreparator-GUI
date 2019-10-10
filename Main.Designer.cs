@@ -41,6 +41,7 @@
             this.Warning = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.WarningDesc = new System.Windows.Forms.Label();
+            this.Next = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Begin
@@ -112,7 +113,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(34, 657);
+            this.progressBar1.Location = new System.Drawing.Point(34, 618);
             this.progressBar1.MarqueeAnimationSpeed = 20;
             this.progressBar1.Maximum = 500;
             this.progressBar1.Name = "progressBar1";
@@ -126,11 +127,12 @@
             // 
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Items.AddRange(new object[] {
-            "Welcome to The Lexy Wabbajack Preparator!"});
+            "Welcome to The Lexy Wabbajack Preparator!",
+            "Click Begin to get started, or press skip if you\'ve already used Wabbajack"});
             this.listBox1.Location = new System.Drawing.Point(131, 374);
             this.listBox1.Name = "listBox1";
             this.listBox1.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.listBox1.Size = new System.Drawing.Size(512, 277);
+            this.listBox1.Size = new System.Drawing.Size(512, 238);
             this.listBox1.TabIndex = 6;
             this.listBox1.TabStop = false;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
@@ -165,11 +167,22 @@
             this.WarningDesc.Text = resources.GetString("WarningDesc.Text");
             this.WarningDesc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // Next
+            // 
+            this.Next.Location = new System.Drawing.Point(363, 657);
+            this.Next.Name = "Next";
+            this.Next.Size = new System.Drawing.Size(75, 23);
+            this.Next.TabIndex = 10;
+            this.Next.Text = "Skip";
+            this.Next.UseVisualStyleBackColor = true;
+            this.Next.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 692);
+            this.Controls.Add(this.Next);
             this.Controls.Add(this.WarningDesc);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.Warning);
@@ -204,7 +217,7 @@
         private System.Windows.Forms.Label Warning;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label WarningDesc;
-
+        private System.Windows.Forms.Button Next;
     }
 }
 
