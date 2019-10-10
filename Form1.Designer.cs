@@ -91,7 +91,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.checkedListBox1.FormattingEnabled = true;
             this.checkedListBox1.Items.AddRange(new object[] {
-            "Custom Steam Install Location?",
             "Reinstall Skyrim Special Edition?",
             "Remove Skyrim Special Edition Mods Folder?",
             "Remove Skyrim Config Folder?",
@@ -100,7 +99,7 @@
             "Remove zEdit Appdata Folder?"});
             this.checkedListBox1.Location = new System.Drawing.Point(259, 118);
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(270, 109);
+            this.checkedListBox1.Size = new System.Drawing.Size(270, 94);
             this.checkedListBox1.TabIndex = 4;
             this.checkedListBox1.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
             // 
@@ -114,6 +113,7 @@
             this.progressBar1.Location = new System.Drawing.Point(30, 510);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(740, 23);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar1.TabIndex = 5;
             // 
             // listBox1

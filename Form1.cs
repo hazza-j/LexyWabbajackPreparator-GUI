@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Microsoft.VisualBasic;
+using Microsoft.Win32;
 
 namespace Preparator_GUI
 {
@@ -43,27 +44,8 @@ namespace Preparator_GUI
             string AppDataLocal = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             string ProgramFiles86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
             // Set Steam Folder
-            string SteamFolder;
-
-            // Check Custom Steam Folder
-            if (checkedListBox1.GetItemChecked(0))
-            {
-                listBox1.Items.Add("-----------------------------------------------------------".ToString());
-                listBox1.Items.Add("Looking For Custom Steam Directory...".ToString());
-                listBox1.TopIndex = listBox1.Items.Count - 1;
-                folderBrowserDialog1.ShowDialog();
-                SteamFolder = folderBrowserDialog1.SelectedPath;
-            }
-            else
-            {
-                SteamFolder = Path.Combine(ProgramFiles86, "Steam");
-            }
-            if (SteamFolder.Length <= 0)
-            {
-                listBox1.Items.Add("ERROR: Invalid Directory Chosen! Please Press Begin and try again".ToString());
-                listBox1.TopIndex = listBox1.Items.Count - 1;
-                hold = false;
-            }
+            RegistryKey Steam = Registry.CurrentUser.OpenSubKey(@"Software\\Valve\\Steam", false);
+            string SteamFolder = (string)Steam.GetValue("SteamPath");
 
             // Search for Steam Libraries
             List<string> SteamLibraries = new List<string>();
@@ -97,7 +79,7 @@ namespace Preparator_GUI
                 listBox1.Items.Add("-----------------------------------------------------------".ToString());
                 progressBar1.PerformStep();
                 // Check for Skyrim Uninstall
-                if (checkedListBox1.GetItemChecked(1))
+                if (checkedListBox1.GetItemChecked(0))
                 {
                     listBox1.Items.Add("Prompting user to uninstall Skyrim Special Edition.".ToString());
                     listBox1.TopIndex = listBox1.Items.Count - 1;
@@ -112,7 +94,7 @@ namespace Preparator_GUI
                 progressBar1.PerformStep();
 
                 // SkyrimSE Mods Folder
-                if (checkedListBox1.GetItemChecked(2))
+                if (checkedListBox1.GetItemChecked(1))
                 {
                     string SSEModsFolder = "";
                     // Search each Steam Library for the SSE Mods folder
@@ -141,7 +123,7 @@ namespace Preparator_GUI
                 progressBar1.PerformStep();
 
                 // My Documents SSE Config Folder
-                if (checkedListBox1.GetItemChecked(3))
+                if (checkedListBox1.GetItemChecked(2))
                 {
                     string SSEConfigFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games", "Skyrim Special Edition");
                     if (Directory.Exists(SSEConfigFolder))
@@ -161,7 +143,7 @@ namespace Preparator_GUI
                 progressBar1.PerformStep();
 
                 // AppData LOOT
-                if (checkedListBox1.GetItemChecked(4))
+                if (checkedListBox1.GetItemChecked(3))
                 {
                     if (Directory.Exists(Path.Combine(AppDataLocal, "LOOT")))
                     {
@@ -179,7 +161,7 @@ namespace Preparator_GUI
                 }
 
                 // Appdata SSE
-                if (checkedListBox1.GetItemChecked(5))
+                if (checkedListBox1.GetItemChecked(4))
                 {
                     if (Directory.Exists(Path.Combine(AppDataLocal, "Skyrim Special Edition")))
                     {
@@ -197,7 +179,7 @@ namespace Preparator_GUI
                 }
 
                 // Appdata zEdit
-                if (checkedListBox1.GetItemChecked(6))
+                if (checkedListBox1.GetItemChecked(5))
                 {
                     if (Directory.Exists(Path.Combine(AppData, "zEdit")))
                     {
