@@ -19,42 +19,35 @@ namespace Preparator_GUI
 {
     public partial class Main : Form
     {
+        // For Editing SkyrimPrefs.ini
+        [DllImport("kernel32.dll", EntryPoint = "WritePrivateProfileString")]
+        public static extern long WriteValueA(string strSection, string strKeyName, 
+            string strValue, string strFilePath);
+        // Set System Directories
+        private string AppData = 
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        private string AppDataLocal = 
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        private string ProgramFiles86 = 
+            Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+        private string SteamFolder;
+        private string LexyDir;
+        private string GameDir;
+
+        //Set Steam Library Directory List
+        List<string> SteamLibraries = new List<string>();
+
         public Main()
         {
             InitializeComponent();
             this.Text = "Lexy Wabbajack Preparator GUI";
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            // Change Skip Button
-            Next.Text = "Next";
-            Next.Enabled = false;
-
-            // Set System Directories
-            string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string AppDataLocal = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            string ProgramFiles86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
-
             // Set Steam Folder
             RegistryKey Steam = Registry.CurrentUser.OpenSubKey(@"Software\\Valve\\Steam", false);
-            string SteamFolder = (string)Steam.GetValue("SteamPath");
+            SteamFolder = (string)Steam.GetValue("SteamPath");
 
             // Search for Steam Libraries
-            List<string> SteamLibraries = new List<string>();
-
             // This library always exists when installing Steam, and is not in libraryfolders.vdf, so adding it manually
             SteamLibraries.Add(Path.Combine(SteamFolder, "steamapps", "common"));
-            listBox1.Items.Add("Looking For Steam Libraries".ToString());
-            listBox1.Items.Add("-----------------------------------------------------------".ToString());
-            listBox1.TopIndex = listBox1.Items.Count - 1;
-
-            // Search for all Steam Libraries on this computer
             foreach (string line in File.ReadLines(Path.Combine(SteamFolder, "steamapps", "libraryfolders.vdf")))
             {
                 string a = line.Trim();
@@ -67,6 +60,13 @@ namespace Preparator_GUI
                     }
                 }
             }
+
+            // Display Steam Libraries
+            listBox1.Items.Add("Looking For Steam Libraries".ToString());
+            listBox1.Items.Add("-----------------------------------------------------------".ToString());
+            listBox1.TopIndex = listBox1.Items.Count - 1;
+
+            // Search for all Steam Libraries on this computer
             listBox1.Items.Add("Detected Steam Libraries: ".ToString());
             listBox1.TopIndex = listBox1.Items.Count - 1;
             foreach (string SteamLibrary in SteamLibraries)
@@ -75,6 +75,31 @@ namespace Preparator_GUI
                 listBox1.TopIndex = listBox1.Items.Count - 1;
             }
             listBox1.Items.Add("-----------------------------------------------------------".ToString());
+
+            //Locate Game Directory
+            foreach (string SteamLibrary in SteamLibraries)
+            {
+                if (Directory.Exists(Path.Combine(SteamLibrary, "Skyrim Special Edition")))
+                {
+                    GameDir = Path.Combine(SteamLibrary, "Skyrim Special Edition");
+                    // Display Game Directory
+                    listBox1.Items.Add("Detected Game Folder".ToString());
+                    listBox1.Items.Add(GameDir.ToString());
+                    listBox1.Items.Add("-----------------------------------------------------------".ToString());
+                }
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // Change Skip Button
+            Next.Enabled = false;
+
             progressBar1.PerformStep();
 
             // Skyrim Uninstallation
@@ -196,9 +221,13 @@ namespace Preparator_GUI
             }
             progressBar1.PerformStep();
             listBox1.Items.Add("Preparation for modlist install complete!".ToString());
-            listBox1.Items.Add("Leave This window open and click next once Wabbajack has finished".ToString());
+            listBox1.Items.Add("Now you can go and use Wabbajack :)".ToString());
+            listBox1.Items.Add("-----------------------------------------------------------".ToString());
+            listBox1.Items.Add("Come back here after and complete the next steps by pressing next".ToString());
+            listBox1.Items.Add("-----------------------------------------------------------".ToString());
             listBox1.TopIndex = listBox1.Items.Count - 1;
 
+            Next.Text = "Next";
             Next.Enabled = true;
         }
 
@@ -222,27 +251,99 @@ namespace Preparator_GUI
 
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void label1_Click_2(object sender, EventArgs e)
         {
 
         }
 
-        private void progressBar1_Click(object sender, EventArgs e)
+        private void button1_Click_2(object sender, EventArgs e)
         {
-            progressBar1.Minimum = 1;
-            progressBar1.Maximum = 6;
-            progressBar1.Value = 1;
-            progressBar1.Step = 1;
+            folderBrowserDialog2.ShowDialog();
+            if (folderBrowserDialog2.SelectedPath.Length < 1)
+            {
+                label3.Text = "No Directory Selected!";
+                label3.Enabled = false;
+                panel3.Enabled = false;
+            }
+            else
+            {
+                LexyDir = folderBrowserDialog2.SelectedPath;
+                label3.Text = "Lexy LOTD Directory: " + folderBrowserDialog2.SelectedPath;
+                label3.Enabled = true;
+                panel3.Enabled = true;
+            }
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void folderBrowserDialog2_HelpRequest(object sender, EventArgs e)
+        {
+
+        }
+        void Copy(string sourceDir, string targetDir)
+        {
+            Directory.CreateDirectory(targetDir);
+
+            foreach (var file in Directory.GetFiles(sourceDir))
+                File.Copy(file, Path.Combine(targetDir, Path.GetFileName(file)));
+
+            foreach (var directory in Directory.GetDirectories(sourceDir))
+                Copy(directory, Path.Combine(targetDir, Path.GetFileName(directory)));
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(Path.Combine(LexyDir, "Game Folder Files")))
+            {
+                string dir = Path.Combine(LexyDir, "Game Folder Files");
+                Copy(dir, GameDir);
+                listBox1.Items.Add("Copied Game Folder Files");
+                listBox1.Items.Add("-----------------------------------------------------------".ToString());
+                listBox1.TopIndex = listBox1.Items.Count - 1;
+            }
+            else
+            {
+                listBox1.Items.Add("Game Folder Files not found!".ToString());
+                listBox1.Items.Add("Check LOTD Folder is correct and that is contains a folder called 'Game Folder Files'".ToString());
+                listBox1.Items.Add("-----------------------------------------------------------".ToString());
+                listBox1.TopIndex = listBox1.Items.Count - 1;
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Add("Writing Resolution to SkyrimPrefs.ini");
+            listBox1.Items.Add("-----------------------------------------------------------".ToString());
+            listBox1.TopIndex = listBox1.Items.Count - 1;
+            WriteValueA("Display", "iSize H", numericUpDown3.Value.ToString(), Path.Combine(LexyDir, "profiles", "Lexys LOTD SE Unofficial Autoinstaller", "SkyrimPrefs.ini"));
+            WriteValueA("Display", "iSize W", numericUpDown2.Value.ToString(), Path.Combine(LexyDir, "profiles", "Lexys LOTD SE Unofficial Autoinstaller", "SkyrimPrefs.ini"));
+        }
+
+        private void Next_Click(object sender, EventArgs e)
+        {
+            panel1.Hide();
+            panel2.Show();
+            progressBar1.Hide();
+            panel6.Hide();
+        }
+
+        private void panel7_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void progressBar1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
         {
 
         }
     }
+    
 }
